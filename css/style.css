@@ -55,3 +55,7 @@ ul li:hover {
 input {
   border-bottom: 2px solid #e65c00;
 }
+.hidden{
+  
+  visibility: hidden;
+}

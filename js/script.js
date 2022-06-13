@@ -1,56 +1,21 @@
 const input = document.querySelector('#adress');
 const suggestions = document.querySelector('.suggestions ul');
 
-var adress = [];
-
-function search(str) {
-	let results = [];
-	const val = str.toLowerCase();
-
-	for (i = 0; i < adress.length; i++) {
-		if (adress[i].toLowerCase().indexOf(val) > -1) {
-			results.push(adress[i]);
-		}
-	}
-
-	return results;
-}
-
-function searchHandler(e) {
-	const inputVal = e.currentTarget.value;
-	let results = [];
-	if (inputVal.length > 0) {
-		results = search(inputVal);
-	}
-	showSuggestions(results, inputVal);
-}
-
-function showSuggestions(results, inputVal) {
-
-	suggestions.innerHTML = '';
-
-	if (results.length > 0) {
-		for (i = 0; i < results.length; i++) {
-			let item = results[i];
-			// Highlights only the first match
-			// TODO: highlight all matches
-			const match = item.match(new RegExp(inputVal, 'i'));
-			item = item.replace(match[0], `<strong>${match[0]}</strong>`);
-			suggestions.innerHTML += `<li>${item}</li>`;
-		}
-		suggestions.classList.add('has-suggestions');
-	} else {
-		results = [];
-		suggestions.innerHTML = '';
-		suggestions.classList.remove('has-suggestions');
-	}
-}
 
 function useSuggestion(e) {
-	input.value = e.target.innerText;
+	let a = e.target.querySelector('.hidden').innerHTML;
+	
+	listes = a.split("%%");
+	input.value = listes[0];
+	document.getElementById('zipcode').value = listes[1];
+	document.getElementById('ville').value = listes[2];
+	document.getElementById('Pays').value = 'France';
+	document.getElementById('Lat').value = listes[3];
+	document.getElementById('long').value = listes[4];
 	input.focus();
 	suggestions.innerHTML = '';
 	suggestions.classList.remove('has-suggestions');
+	console.log(input);
 }
 
 
@@ -68,9 +33,9 @@ if(input.value!="")
 		suggestions.innerHTML ='';
 		suggestions.classList.remove('has-suggestions');
 		data.features.forEach((feature) => {
-			suggestions.innerHTML += `<li>${feature.properties.label}</li>`;
+			suggestions.innerHTML += `<li>${feature.properties.label} <span class='hidden'>${feature.properties.name}%%${feature.properties.postcode}%%${feature.properties.city}%%${feature.geometry.coordinates[1]}%%${feature.geometry.coordinates[0]}</span></li>`;
 			suggestions.classList.add('has-suggestions');
-			console.log(feature.properties);
+			console.log(feature);
 		})
 	}).catch((error) => {
 		console.log(error);
