@@ -26,7 +26,7 @@ input.addEventListener('input', (e) => {
 	
 if(input.value!="")
 {
-	let url1 = fetch('https://api-adresse.data.gouv.fr/search/?q=' +input.value+'&type=street');
+	let url1 = fetch('https://api-adresse.data.gouv.fr/search/?q=' +input.value+'&type=housenumber');
 	url1.then((res) => {
 		return res.json();
 	}).then((data) => {
